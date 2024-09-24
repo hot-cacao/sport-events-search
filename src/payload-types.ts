@@ -12,7 +12,8 @@ export interface Config {
   };
   collections: {
     users: User;
-    media: Media;
+    events: Event;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -49,6 +50,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  fullName: string;
+  roles?: ('admin' | 'eventOrganizer')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -62,22 +65,47 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "events".
  */
-export interface Media {
+export interface Event {
   id: string;
-  alt: string;
+  eventName: string;
+  locationStreet: string;
+  locationCity: string;
+  dateStart: string;
+  dateEnd: string;
+  registeredUser?:
+    | {
+        fullName: string;
+        email: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: string | Event;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
