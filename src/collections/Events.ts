@@ -52,21 +52,14 @@ export const Events: CollectionConfig = {
       ],
     },
     {
-      name: 'registeredUser',
-      type: 'array',
-      fields: [
-        {
-          name: 'fullName',
-          type: 'text',
-          required: true,
-        },
-        {
-          name: 'email',
-          type: 'email',
-          required: true,
-        },
-      ],
-      maxRows: 25,
+      name: 'urlLink',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'slotLeft',
+      type: 'number',
+      required: true,
     },
   ],
 }
